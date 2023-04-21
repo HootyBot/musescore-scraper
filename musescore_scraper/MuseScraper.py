@@ -15,7 +15,7 @@ import requests
 import io
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
-from PyPDF2 import PdfFileMerger
+from PyPDF2 import PdfMerger
 from pathlib import Path, PurePath
 import platform
 from PIL import Image
@@ -82,7 +82,7 @@ class BaseMuseScraper(ABC):
     async def _pyppeteer_main(
             self,
             url: str,
-    ) -> List[str]:
+    ) -> Dict:
 
         page: pyppeteer.page.Page = await self._browser.newPage()
         try:
@@ -152,7 +152,7 @@ class BaseMuseScraper(ABC):
             self._logger.info(f'Collected "{k}" metadata from score: "{v}"')
 
 
-        merger: PdfFileMerger = PdfFileMerger()
+        merger: PdfMerger = PdfMerger()
         def to_pdf_f(img_ext: str, contents: io.BytesIO) -> io.BytesIO:
             if img_ext.startswith(".svg"):
                 return io.BytesIO(renderPDF.drawToString(svg2rlg(contents)))
@@ -180,7 +180,7 @@ class BaseMuseScraper(ABC):
 
             merger.append(to_pdf_f(img_ext, io.BytesIO(response.content)))
 
-        merger.addMetadata({ ('/' + k): v for k, v in info_dict.items() })
+        merger.add_metadata({ ('/' + k): v for k, v in info_dict.items() })
 
 
         def eval_expression(input_string: str) -> str:
