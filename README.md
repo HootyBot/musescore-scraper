@@ -4,9 +4,18 @@ A MuseScore PDF scraper that serves as both a CLI and Python module. For non-sub
 
 ## Set-up
 
-Run `pip install musescore-scraper` in your terminal.
+To build the package:
 
-PyPI page for more details: [https://pypi.org/project/musescore-scraper/](https://pypi.org/project/musescore-scraper/)
+1. Clone this repository, then `cd` to the repo's parent folder.
+2. Run the following commands in your terminal (It's recommended that you do this in a new virtual environment):
+
+```bash
+pip install --upgrade build
+python -m build
+pip install dist/musescore_scraper-2.4.0-py3-none-any.whl
+```
+
+Original (deprecated) PyPI page for "more" details: [https://pypi.org/project/musescore-scraper/](https://pypi.org/project/musescore-scraper/)
 
 ## Usage
 
